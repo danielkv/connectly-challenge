@@ -1,0 +1,16 @@
+.contentWrapper {
+    display: grid;
+    grid-template-columns: 360px auto;
+
+    max-height: 100%;
+}
+.sidebar {
+    background-color: white;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+
+    height: calc(100vh - 70px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
