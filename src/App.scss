@@ -1,0 +1,18 @@
+#root {
+    display: grid;
+    grid-template-columns: 56px auto;
+    grid-template-rows: 70px auto;
+    grid-template-areas:
+        'app-navigation app-header'
+        'app-navigation app-main';
+    height: 100%;
+}
+#app-navigation {
+    grid-area: app-navigation;
+}
+#app-header {
+    grid-area: app-header;
+}
+#app-main {
+    grid-area: app-main;
+}

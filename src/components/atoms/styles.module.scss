@@ -1,0 +1,13 @@
+.appNavigationButton {
+    padding: 24px 0;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #000;
+    }
+
+    &.selected {
+        border-right: 4px solid #007dff;
+        background-color: #000;
+    }
+}
