@@ -14,6 +14,7 @@ import {
     SmartButton,
     TextFields,
 } from '@mui/icons-material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import { Button, IconButton, Stack, Typography } from '@mui/material'
 
 import TextField from '../../../components/atoms/TextField'
@@ -22,7 +23,7 @@ import InfoBox from '../../../components/molecules/InfoBox'
 import { IForm } from '../schema'
 
 const Sidebar: React.FC = () => {
-    const { values, handleChange, setFieldValue } = useFormikContext<IForm>()
+    const { values, handleChange, setFieldValue, isSubmitting } = useFormikContext<IForm>()
 
     const imagePreview = values.image ? URL.createObjectURL(values.image) : null
 
@@ -46,7 +47,13 @@ const Sidebar: React.FC = () => {
                 >
                     <Stack gap={1} alignItems="flex-start">
                         <Typography variant="caption">Image size recommendation: 800 x 418 pixel.</Typography>
-                        <Button component="label" role={undefined} variant="outlined" tabIndex={-1}>
+                        <Button
+                            disabled={isSubmitting}
+                            component="label"
+                            role={undefined}
+                            variant="outlined"
+                            tabIndex={-1}
+                        >
                             UPLOAD IMAGE
                             <input
                                 accept="image/*"
@@ -74,6 +81,7 @@ const Sidebar: React.FC = () => {
                 <FieldBox title="Body message" required info="Body message" Icon={<TextFields />}>
                     <Stack gap={1} alignItems="flex-start">
                         <TextField
+                            disabled={isSubmitting}
                             value={values.body}
                             onChange={handleChange('body')}
                             multiline
@@ -86,19 +94,19 @@ const Sidebar: React.FC = () => {
                         <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between">
                             <Button size="small">ADD VARIABLE</Button>
                             <Stack direction="row" alignItems="center">
-                                <IconButton size="small">
+                                <IconButton disabled={isSubmitting} size="small">
                                     <EmojiEmotions fontSize="inherit" />
                                 </IconButton>
-                                <IconButton size="small">
+                                <IconButton disabled={isSubmitting} size="small">
                                     <FormatBold fontSize="inherit" />
                                 </IconButton>
-                                <IconButton size="small">
+                                <IconButton disabled={isSubmitting} size="small">
                                     <FormatClear fontSize="inherit" />
                                 </IconButton>
-                                <IconButton size="small">
+                                <IconButton disabled={isSubmitting} size="small">
                                     <FormatItalic fontSize="inherit" />
                                 </IconButton>
-                                <IconButton size="small">
+                                <IconButton disabled={isSubmitting} size="small">
                                     <Code fontSize="inherit" />
                                 </IconButton>
                             </Stack>
@@ -119,6 +127,7 @@ const Sidebar: React.FC = () => {
                 >
                     <Stack gap={1} alignItems="flex-start">
                         <TextField
+                            disabled={isSubmitting}
                             value={values.footer}
                             onChange={handleChange('footer')}
                             multiline
@@ -162,6 +171,7 @@ const Sidebar: React.FC = () => {
                                                 </IconButton>
                                             </Stack>
                                             <TextField
+                                                disabled={isSubmitting}
                                                 placeholder="Enter text"
                                                 value={button}
                                                 onChange={handleChange(`buttons.${index}`)}
@@ -174,6 +184,7 @@ const Sidebar: React.FC = () => {
                                         variant="outlined"
                                         fullWidth
                                         onClick={() => insert(values.buttons.length, '')}
+                                        disabled={isSubmitting}
                                     >
                                         Add Button
                                     </Button>
@@ -184,10 +195,12 @@ const Sidebar: React.FC = () => {
                 </FieldBox>
 
                 <Stack gap={2}>
-                    <Button type="submit" variant="contained">
+                    <LoadingButton loading={isSubmitting} type="submit" variant="contained">
                         Save
+                    </LoadingButton>
+                    <Button disabled={isSubmitting} variant="outlined">
+                        Delete
                     </Button>
-                    <Button variant="outlined">Delete</Button>
                 </Stack>
             </Stack>
         </>

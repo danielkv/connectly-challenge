@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useFormikContext } from 'formik'
 
-import { Add, CenterFocusStrong, Info, Message, Remove } from '@mui/icons-material'
+import { Add, CenterFocusStrong, Info, Message, Remove, Send } from '@mui/icons-material'
 import { Box, Button, ButtonGroup, Card, Chip, Divider, Stack, Typography, styled } from '@mui/material'
 
+import arrow from '../../../assets/arrow.svg'
 import { IForm } from '../schema'
 
 const ZoomButton = styled(Button)({
@@ -34,13 +35,36 @@ const SCALE_THRESHOLD = 0.2
 const Preview: React.FC = () => {
     const { values } = useFormikContext<IForm>()
 
+    const cardRef = useRef<HTMLDivElement>(null)
+
     const [zoom, setZoom] = useState(1)
     const [helpersHidden, setHelpersHidden] = useState(false)
+    const [offsetLeft, setOffsetLeft] = useState(0)
+
+    const handleOffsetLeft = useCallback(() => {
+        const newOffsetLeft = cardRef.current
+            ? cardRef.current.offsetLeft - (cardRef.current.offsetWidth * zoom) / 2
+            : 0
+
+        setOffsetLeft(newOffsetLeft)
+    }, [zoom])
+
+    useEffect(() => {
+        handleOffsetLeft()
+    }, [handleOffsetLeft, zoom])
+
+    useEffect(() => {
+        window.addEventListener('resize', () => handleOffsetLeft())
+
+        return () => {
+            window.removeEventListener('resize', () => handleOffsetLeft())
+        }
+    }, [handleOffsetLeft])
 
     const imagePreview = values.image ? URL.createObjectURL(values.image) : null
 
     return (
-        <Stack height="100%" alignItems="center" justifyContent="center" position="relative">
+        <Stack height="100%" alignItems="center" justifyContent="center" position="relative" overflow="hidden">
             <Stack gap={2} position="absolute" width={32} left={30} bottom={30}>
                 <ZoomButton onClick={() => setHelpersHidden((current) => !current)}>
                     <Info fontSize="inherit" />
@@ -57,7 +81,22 @@ const Preview: React.FC = () => {
                     </ZoomButton>
                 </ButtonGroup>
             </Stack>
-            <Card style={{ transform: `scale(${zoom})`, transition: 'all .1s' }}>
+            <Box
+                bgcolor="#212121"
+                color="white"
+                textAlign="center"
+                padding={4}
+                borderRadius={20}
+                position="absolute"
+                zIndex={999}
+                left={offsetLeft - 80}
+                style={{ transition: 'all .1s' }}
+            >
+                <Send />
+                <Typography>Campaign Starts</Typography>
+                <img src={arrow} style={{ position: 'absolute', right: -45, top: '50%', marginTop: -8 }} />
+            </Box>
+            <Card ref={cardRef} style={{ transform: `scale(${zoom})`, transition: 'all .1s' }}>
                 <Stack p={2} width={304} boxSizing="border-box" gap={2}>
                     <Stack direction="row" alignItems="center" gap={1}>
                         <Stack

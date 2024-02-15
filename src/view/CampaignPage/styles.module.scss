@@ -1,9 +1,21 @@
 .contentWrapper {
     display: grid;
-    grid-template-columns: 360px auto;
+    grid-template-columns: 300px auto;
+
+    @media (min-width: 1024px) {
+        & {
+            grid-template-columns: 360px auto;
+        }
+    }
+    @media (min-width: 1400px) {
+        & {
+            grid-template-columns: 500px auto;
+        }
+    }
 
     max-height: 100%;
 }
+
 .sidebar {
     background-color: white;
     padding: 24px;
