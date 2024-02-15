@@ -1,13 +1,8 @@
 import * as yup from 'yup'
 
-export interface IFormFields {
-    image: File | null
-    body: string
-    footer: string
-    buttons: string[]
-}
+import { Campaign } from '../../common/models/campaign'
 
-export interface IForm extends IFormFields {
+export interface IForm extends Campaign {
     buttonsEnabled: boolean
     footerEnabled: boolean
     headerEnabled: boolean

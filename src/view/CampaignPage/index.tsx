@@ -1,19 +1,26 @@
 import { Form, Formik } from 'formik'
 
+import { Campaign } from '../../common/models/campaign'
+import { saveCampaignUseCase } from '../../domain/useCases/saveCampaign'
 import Preview from './Preview'
 import Sidebar from './Sidebar'
-import { IForm, IFormFields, formSchema, initialValues } from './schema'
+import { IForm, formSchema, initialValues } from './schema'
 import styles from './styles.module.scss'
 
 const CampaignPage: React.FC = () => {
-    const onSubmit = (fields: IForm) => {
-        const result: IFormFields = {
-            body: fields.body,
-            image: fields.headerEnabled ? fields.image : null,
-            footer: fields.footerEnabled ? fields.footer : '',
-            buttons: fields.buttonsEnabled ? fields.buttons : [],
+    const onSubmit = async (fields: IForm) => {
+        try {
+            const result: Campaign = {
+                body: fields.body,
+                image: fields.headerEnabled ? fields.image : null,
+                footer: fields.footerEnabled ? fields.footer : '',
+                buttons: fields.buttonsEnabled ? fields.buttons : [],
+            }
+
+            await saveCampaignUseCase(result)
+        } catch (err) {
+            alert((err as Error).message)
         }
-        console.log(result)
     }
 
     return (
