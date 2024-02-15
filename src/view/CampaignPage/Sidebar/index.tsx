@@ -37,7 +37,13 @@ const Sidebar: React.FC = () => {
                 </IconButton>
             </Stack>
             <Stack gap={3}>
-                <FieldBox title="Header" info="Header" enabled Icon={<Image />}>
+                <FieldBox
+                    title="Header"
+                    info="Header"
+                    Icon={<Image />}
+                    enabled={values.headerEnabled}
+                    onChangeEnable={(newValue) => setFieldValue('headerEnabled', newValue)}
+                >
                     <Stack gap={1} alignItems="flex-start">
                         <Typography variant="caption">Image size recommendation: 800 x 418 pixel.</Typography>
                         <Button component="label" role={undefined} variant="outlined" tabIndex={-1}>
@@ -106,10 +112,10 @@ const Sidebar: React.FC = () => {
                 </FieldBox>
                 <FieldBox
                     title="Footer text"
-                    enabled
-                    onChangeEnable={() => {}}
                     info="Footer text"
                     Icon={<TextFields />}
+                    enabled={values.footerEnabled}
+                    onChangeEnable={(newValue) => setFieldValue('footerEnabled', newValue)}
                 >
                     <Stack gap={1} alignItems="flex-start">
                         <TextField
@@ -124,7 +130,13 @@ const Sidebar: React.FC = () => {
                     </Stack>
                 </FieldBox>
 
-                <FieldBox title="Buttons" enabled onChangeEnable={() => {}} info="Buttons" Icon={<SmartButton />}>
+                <FieldBox
+                    title="Buttons"
+                    info="Buttons"
+                    Icon={<SmartButton />}
+                    enabled={values.buttonsEnabled}
+                    onChangeEnable={(newValue) => setFieldValue('buttonsEnabled', newValue)}
+                >
                     <Stack gap={1} alignItems="flex-start">
                         <FieldArray name="buttons">
                             {({ insert, remove }) => (

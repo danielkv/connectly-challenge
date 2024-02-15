@@ -1,10 +1,16 @@
 import * as yup from 'yup'
 
-export interface IForm {
+export interface IFormFields {
     image: File | null
     body: string
     footer: string
     buttons: string[]
+}
+
+export interface IForm extends IFormFields {
+    buttonsEnabled: boolean
+    footerEnabled: boolean
+    headerEnabled: boolean
 }
 
 export const initialValues: IForm = {
@@ -12,10 +18,12 @@ export const initialValues: IForm = {
     body: '',
     footer: '',
     buttons: [],
+    headerEnabled: true,
+    footerEnabled: false,
+    buttonsEnabled: false,
 }
 
 export const formSchema = yup.object().shape({
-    //image: yup.string().notRequired(),
     body: yup.string().required('Body is required'),
     footer: yup.string().notRequired(),
     buttons: yup.array().of(yup.string().notRequired()),
