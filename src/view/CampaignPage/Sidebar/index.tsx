@@ -27,6 +27,34 @@ const Sidebar: React.FC = () => {
 
     const imagePreview = values.image ? URL.createObjectURL(values.image) : null
 
+    const handleAddVariable = () => {
+        const regex = /\{\{\d\}\}/g
+
+        const result = values.body.match(regex)
+
+        const nextVariable = result ? result?.length + 1 : 1
+
+        const variableText = `{{${nextVariable}}}`
+
+        setFieldValue('body', values.body + variableText)
+    }
+
+    const handleBodyChange = (text: string) => {
+        const regex = /\{\{\d\}\}/g
+        const result = values.body.match(regex)
+
+        const delVaribleRegex = /\{\{\d+\}/
+        let newBody = text.replace(delVaribleRegex, '')
+
+        if (!result) setFieldValue('body', newBody)
+
+        result?.forEach((res, idx) => {
+            newBody = newBody.replace(res, `{{${idx + 1}}}`)
+        })
+
+        setFieldValue('body', newBody)
+    }
+
     return (
         <>
             <Stack mb={3} direction="row" alignItems="center" justifyContent="space-between">
@@ -83,7 +111,7 @@ const Sidebar: React.FC = () => {
                         <TextField
                             disabled={isSubmitting}
                             value={values.body}
-                            onChange={handleChange('body')}
+                            onChange={(e) => handleBodyChange(e.target.value)}
                             multiline
                             maxLength={1024}
                             maxRows={8}
@@ -92,7 +120,9 @@ const Sidebar: React.FC = () => {
                         />
 
                         <Stack width="100%" direction="row" alignItems="center" justifyContent="space-between">
-                            <Button size="small">ADD VARIABLE</Button>
+                            <Button size="small" onClick={handleAddVariable}>
+                                ADD VARIABLE
+                            </Button>
                             <Stack direction="row" alignItems="center">
                                 <IconButton disabled={isSubmitting} size="small">
                                     <EmojiEmotions fontSize="inherit" />

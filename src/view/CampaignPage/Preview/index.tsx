@@ -61,6 +61,28 @@ const Preview: React.FC = () => {
         }
     }, [handleOffsetLeft])
 
+    // {{1}}asdasdasdasd{{2}}{{3}}
+    const formatBody = (body: string) => {
+        const regex = /\{\{\d\}\}/g
+        const match = body.match(regex)
+
+        let newBody = body
+
+        match?.forEach((variable) => {
+            newBody = newBody.replace(variable, formatVariable(variable))
+        })
+
+        return newBody
+    }
+    //{{1}}
+    const formatVariable = (variable: string): string => {
+        const num = variable.replace('{{', '').replace('}}', '')
+
+        return `<div class='bodyVariable'>${num}</div>`
+    }
+
+    formatBody(values.body)
+
     const imagePreview = values.image ? URL.createObjectURL(values.image) : null
 
     return (
@@ -146,7 +168,7 @@ const Preview: React.FC = () => {
                                 />
 
                                 <Typography fontSize={14} fontWeight={400}>
-                                    {values.body}
+                                    <div dangerouslySetInnerHTML={{ __html: formatBody(values.body) }}></div>
                                 </Typography>
 
                                 {values.footerEnabled && !!values.footer && (
