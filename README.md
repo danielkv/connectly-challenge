@@ -88,6 +88,18 @@ Abstract to a shared functions or shared components what need to be reusable. Th
 | id          | string   | true     | -       | Audience ID                       |
 | name        | string   | true     | -       | User ID                           |
 | list_size   | number   | true     | -       | Size of the list                  |
+| users       | User[]   | true     | -       | List                  |
+
+## User
+
+| Field       | Type     | Required | Default | Description                       |
+| ----------- | -------- | -------- | ------- | --------------------------------- |
+| id            | string   | true     | -       | Audience ID                       |
+| name          | string   | true     | -       | User ID                           |
+| phone_number   | number   | true     | -       | Size of the list                  |
+| city          | string   | true     | -       | Size of the list                  |
+
+{{user.phone_number}}
 
 ## Node
 
