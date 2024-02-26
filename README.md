@@ -30,6 +30,8 @@ Component-Based Architecture: Utilize a component-based architecture using frame
 
 -   **Campaign Scheduling**: Users can select immediate or scheduled sending option. Backend API is called to schedule the campaign for a future time or publish it immediately.
 
+-   **Audience**: The users need to be able to choose the audience of Campaign. The audience is list of phone numbers, the user can pick one audience where this Campagin should be sent to. 
+
 ## Components / Layers
 
 Abstract to a shared functions or shared components what need to be reusable. Think ahead of maintainability, when needed, the support team should be able to identify the matter quickly to fix or add new features. It's a common practice to separate the logic from the main design files (.tsx), this way the application doesn't have any giant files, always try to have at maximum 100-150 lines in mind.
@@ -77,6 +79,15 @@ Abstract to a shared functions or shared components what need to be reusable. Th
 | schedule_to | DateTime | false    | null    | When Campaign should be published |
 | create_at   | DateTime | true     | now()   | When campaign was created         |
 | nodes       | Node[]   | true     | -       | Nodes of the flow                 |
+| audience    | string   | true     | -       | Audience ID                       |
+
+## Audience
+
+| Field       | Type     | Required | Default | Description                       |
+| ----------- | -------- | -------- | ------- | --------------------------------- |
+| id          | string   | true     | -       | Audience ID                       |
+| name        | string   | true     | -       | User ID                           |
+| list_size   | number   | true     | -       | Size of the list                  |
 
 ## Node
 
